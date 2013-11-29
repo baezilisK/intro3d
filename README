@@ -1,0 +1,39 @@
+This project is the implementation of a 3D world consisting
+of terrain, trees, roads and the like; including a number of extensions.
+See spec.pdf for the original assignment specification .
+
+----
+
+The following was included in the original submssion's README:
+
+Json is not supported because this program's IO was finalized before
+the spec was. Please run
+make levelgen && ./levelgen c < pathtojson > pathtonative
+to generate an appopriate level file for the application.
+
+The base functionality has been implemented.
+
+The following extensions have been implemented:
+  - avatar/3rdperson (press 'o' to toggle)
+  - night mode (press 'i' to toggle)
+  - sun changes color and rotates (press 'c' to toggle)
+  - roads on arbitrary terrain 
+      (see "assets/levels/ext/roads" as an demonstration level)
+  - rain ('k' to toggle)
+
+The following additional features have been implemented:
+  - wasd/mouse work as you would expect
+      (though obviously arrow keys are retained for compatibility)
+  - noclip (press 'l' to toggle)
+  - 'p' will pause the game
+  - keyboard mapping support
+    (sounds a bit silly at first, but after putting up with changing
+    my keyboard to qwerty every time i want to play starcraft, this is
+    totally worth it)
+  - fullscreen (press 'f' to toggle)
+  - qq (press 'q')
+
+Quickstart guide:
+  make
+  ./main assets/levels/ext/roads
+  fki

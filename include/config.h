@@ -1,0 +1,18 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define CONFIG_RENDER_DETAIL 30
+#define CONFIG_TREE_DETAIL CONFIG_RENDER_DETAIL
+#define CONFIG_MOVE_SPEED 0.05
+#define CONFIG_SUN_RADIUS 10
+#define CONFIG_SUN_DIST 100
+#define CONFIG_SUN_DIST2 (CONFIG_SUN_DIST * CONFIG_SUN_DIST)
+#define CONFIG_SUN_COLOR3F 1, 1, 0
+#define CONFIG_MAXTIME 1000000.0
+
+int
+  config_thirdperson,
+  config_daynight;
+
+
+#endif /* CONFIG_H */
