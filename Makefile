@@ -4,13 +4,10 @@ CFLAGS = -std=c89 -O4 -Wall -Werror -Wextra -pedantic $(NOWARN)
 LDFLAGS = -lm -lGL -lGLU -lglut
 IDIRS = include
 MODULES = camera kbd levelio light rain road \
-		terrain texture tree quaternion zutil
+		terrain texture tree zutil
 MODULES_BIN = $(patsubst %, bin/%.o, $(MODULES))
 
 all: main
-
-levelgen: src/levelgen/levelgen.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $<
 
 main: src/main.c $(MODULES_BIN)
 	$(CC) $(CFLAGS) $(LDFLAGS) -I$(IDIRS) -o $@ $^
