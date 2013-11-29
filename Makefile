@@ -3,8 +3,7 @@ NOWARN = -Wno-parentheses -Wno-sign-compare -Wno-unused-result
 CFLAGS = -std=c89 -O4 -Wall -Werror -Wextra -pedantic $(NOWARN)
 LDFLAGS = -lm -lGL -lGLU -lglut
 IDIRS = include
-MODULES = camera kbd levelio light rain road \
-		terrain texture tree zutil
+MODULES = cam kbd
 MODULES_BIN = $(patsubst %, bin/%.o, $(MODULES))
 
 all: main
@@ -19,4 +18,4 @@ install:
 	@echo "make: install not supported"
 
 clean:
-	rm -f levelgen main $(MODULES_BIN);
+	rm -f  main $(MODULES_BIN);
