@@ -1,19 +1,19 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
 
-#define TERRAIN_N 1000
+int terrain_n, terrain_m; /* dimensions of the terrain */
+float terrain_hmap[100][100];
 
-int terrain_nn, terrain_mm;
-float terrain_hmap[TERRAIN_N][TERRAIN_N], terrain_hmin;
-float terrain_normal[TERRAIN_N][TERRAIN_N][3];
-
-/* interpolate normal at x */
+/* interpolate the normal at x */
 float *terrain_getnormal (float *x, float *ret);
 
+/* populate the terrain_normal array based on terrain_hmap */
 void terrain_getnormals (void);
 
+/* draw the terrain */
 void terrain_display (void);
 
+/* terrain height at (x, y) */
 float terrain_h (float x, float y);
 
 #endif /* TERRAIN_H */

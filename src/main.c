@@ -1,20 +1,25 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "GL/freeglut.h"
+#include "GL/glut.h"
 #include "cam.h"
 #include "config.h"
 #include "kbd.h"
+#include "levelio.h"
+#include "terrain.h"
+
+#define PI 3.1415926535
 
 static int
-  fullscreen = 0, /* application is fullscreen */
+  fullscreen = 0, /* whether application is fullscreen */
   skipmouse = 0;  /* whether mouse handler should ignore next event */
 
 static void init (void) {
   glClearColor (0, 0, 0, 0);
   glEnable (GL_DEPTH_TEST);
   kbd_setmap ("assets/kbd/dvp");
-  /* levelio_read ("assets/levels/old/5"); assert (!levelio_errno); */
+  levelio_read ("assets/levels/old/3"); assert (!levelio_errno);
+  cam_ti = PI / 4;
 }
 
 static void reshape (int w, int h) {
@@ -80,13 +85,13 @@ static void axes (void) {
     glColor3f (0, 0, 1); glVertex3f (0, 0, 1); glVertex3f (0, 0, 0);
   glEnd ();
   glLineWidth (1);
+  glColor3f (1, 1, 1);
 }
 
 static void display (void) {
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   axes ();
-  glColor3f (1, 1, 1);
-  glutWireCube (1);
+  terrain_display ();
   centermouse ();
   glFlush ();
 }
@@ -99,6 +104,7 @@ static void tick (void) {
   if (kbd_state['d']) cam_mv (0, u);
   if (kbd_state['c']) cam_z -= u;
   if (kbd_state[' ']) cam_z += u;
+  cam_z = terrain_h (cam_x, cam_y) + CONFIG_AVATAR_HEIGHT;
 }
 
 static void timer (int s) {
@@ -110,7 +116,6 @@ static void timer (int s) {
 }
 
 int main (int argc, char **argv) {
-  init ();
   glutInit (&argc, argv);
   glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
   glutCreateWindow (argv[0]);
@@ -122,5 +127,5 @@ int main (int argc, char **argv) {
   glutKeyboardUpFunc (keyup);
   glutTimerFunc (CONFIG_FRAMEDELAY, timer, 0);
   glutMainLoop ();
-  exit (EXIT_SUCCESS);
+  exit (EXIT_FAILURE);
 }

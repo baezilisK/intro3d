@@ -3,7 +3,7 @@ NOWARN = -Wno-parentheses -Wno-sign-compare -Wno-unused-result
 CFLAGS = -std=c89 -O4 -Wall -Werror -Wextra -pedantic $(NOWARN)
 LDFLAGS = -lm -lGL -lGLU -lglut
 IDIRS = include
-MODULES = cam kbd
+MODULES = cam kbd levelio terrain util
 MODULES_BIN = $(patsubst %, bin/%.o, $(MODULES))
 
 all: main
