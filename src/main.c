@@ -6,9 +6,10 @@
 #include "config.h"
 #include "kbd.h"
 #include "levelio.h"
+#include "road.h"
 #include "terrain.h"
-
-#define PI 3.1415926535
+#include "tree.h"
+#include "util.h"
 
 static int
   fullscreen = 0, /* whether application is fullscreen */
@@ -18,8 +19,17 @@ static void init (void) {
   glClearColor (0, 0, 0, 0);
   glEnable (GL_DEPTH_TEST);
   kbd_setmap ("assets/kbd/dvp");
-  levelio_read ("assets/levels/old/3"); assert (!levelio_errno);
+  if (levelio_read ("assets/levels/old/5")) {
+    fprintf (stderr, "fatal: specified level does not exist\n");
+    exit (EXIT_FAILURE);
+  }
   cam_ti = PI / 4;
+}
+
+static void main_exit (void) {
+  tree_free ();
+  terrain_free ();
+  exit (EXIT_SUCCESS);
 }
 
 static void reshape (int w, int h) {
@@ -54,7 +64,7 @@ static void centermouse (void) {
 
 static void keydown (unsigned char key, int x, int y) {
   (void) x; (void) y;
-  if (kbd_map[key] == 'q') exit (EXIT_SUCCESS);
+  if (kbd_map[key] == 'q') main_exit ();
   kbd_state[kbd_map[key]] = 1;
   if (kbd_map[key] == 'f') {
     fullscreen ^= 1;
@@ -92,6 +102,8 @@ static void display (void) {
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   axes ();
   terrain_display ();
+  tree_displayall ();
+  road_displayall ();
   centermouse ();
   glFlush ();
 }
@@ -104,7 +116,7 @@ static void tick (void) {
   if (kbd_state['d']) cam_mv (0, u);
   if (kbd_state['c']) cam_z -= u;
   if (kbd_state[' ']) cam_z += u;
-  cam_z = terrain_h (cam_x, cam_y) + CONFIG_AVATAR_HEIGHT;
+  /* cam_z = terrain_h (cam_x, cam_y) + CONFIG_AVATAR_HEIGHT; */
 }
 
 static void timer (int s) {
