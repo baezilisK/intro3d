@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stdio.h>
 #include <math.h>
 #include "GL/gl.h"
@@ -43,7 +42,6 @@ static void segment (float w, float *x, float *y) {
 
 static void display (struct road r) {
   int i;
-  assert ((r.nctrl - 1) % 3 == 0);
   for (i = 0; i+4 <= r.nctrl; i += 3) {
     segment (r.w, r.cx + i, r.cy + i);
   }
