@@ -105,7 +105,7 @@ static void display (void) {
   tree_displayall ();
   road_displayall ();
   centermouse ();
-  glFlush ();
+  glutSwapBuffers ();
 }
 
 static void tick (void) {
@@ -129,7 +129,7 @@ static void timer (int s) {
 
 int main (int argc, char **argv) {
   glutInit (&argc, argv);
-  glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+  glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
   glutCreateWindow (argv[0]);
   init ();
   glutReshapeFunc (reshape);
