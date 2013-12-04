@@ -18,13 +18,12 @@ static void sun (void) {
 static void terrain (void) {
   int i, j, m, n;
   fscanf (f, "%d %d", &m, &n);
-  terrain_hmap = xmalloc (m * sizeof *terrain_hmap);
-  for (i = 0; i < m; ++i) {
-    terrain_hmap[i] = xmalloc (n * sizeof *terrain_hmap[i]);
-    for (j = 0; j < n; ++j) {
+  terrain_hmap = xmalloc (n * sizeof *terrain_hmap);
+  for (i = 0; i < n; ++i)
+    terrain_hmap[i] = xmalloc (m * sizeof *terrain_hmap[i]);
+  /* note the input comes in rows */ for (j = 0; j < m; ++j)
+    for (i = 0; i < n; ++i)
       fscanf (f, "%f", &terrain_hmap[i][j]);
-    }
-  }
   terrain_m = m; terrain_n = n;
 }
 

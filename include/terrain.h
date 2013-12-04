@@ -2,10 +2,21 @@
 #define TERRAIN_H
 
 int terrain_n, terrain_m; /* dimensions of the terrain */
-float **terrain_hmap;
+float **terrain_hmap; /* 
+                       * terrain_hmap[i][j] refers to the height of the
+                       * terrain at (i, j)
+                       */
+
+/*
+ * to be called after terrain_hmap[terrain_m][terrain_n] is populated,
+ * this calculates normals based on the heightmap
+ */
+void terrain_normalgen (void);
 
 /* interpolate the normal at x */
+/*
 float *terrain_getnormal (float *x, float *ret);
+*/
 
 /* populate the terrain_normal array based on terrain_hmap */
 void terrain_getnormals (void);

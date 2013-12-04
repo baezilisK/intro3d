@@ -8,8 +8,8 @@
 
 #define max(a, b) ((a) > (b) ?  (a) : (b))
 
-static void vertex (float x, float y) {
-  glVertex3f (x, y, terrain_h (x, y));
+static void vertex (int x, int y) {
+  glVertex3f (x, y, terrain_hmap[x][y]);
 }
 
 float terrain_h (float x, float y) {
@@ -28,9 +28,17 @@ float terrain_h (float x, float y) {
 void terrain_display (void) {
   int i, j;
   glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
+  glColor3ub (0xAA, 0xAA, 0xAA);
   glBegin (GL_TRIANGLES);
-  for (i = 1; i < terrain_m; ++i) {
-    for (j = 1; j < terrain_n; ++j) {
+  for (i = 1; i < terrain_n; ++i) {
+    for (j = 1; j < terrain_m; ++j) {
+      vertex (i, j);
+      vertex (i - 1, j);
+      vertex (i - 1, j - 1);
+      vertex (i - 1, j - 1);
+      vertex (i, j - 1);
+      vertex (i, j);
+      /*
       vertex (i, j);
       vertex (i - 1, j);
       vertex (i - 0.5, j - 0.5);
@@ -43,6 +51,7 @@ void terrain_display (void) {
       vertex (i, j - 1);
       vertex (i, j);
       vertex (i - 0.5, j - 0.5);
+      */
     }
   }
   glEnd ();
@@ -50,7 +59,8 @@ void terrain_display (void) {
 
 void terrain_free (void) {
   int i;
-  for (i = 0; i < terrain_m; ++i)
+  for (i = 0; i < terrain_n; ++i) {
     xfree (terrain_hmap[i]);
+  }
   xfree (terrain_hmap);
 }
