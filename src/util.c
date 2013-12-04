@@ -21,7 +21,7 @@ void xfree (void *u) {
 void crossproduct (float *u, float *v, float *ret) {
   ret[0] = u[1]*v[2] - u[2]*v[1];
   ret[1] = u[2]*v[0] - u[0]*v[2];
-  ret[2] = u[0]*v[1] - u[0]*v[0];
+  ret[2] = u[0]*v[1] - u[1]*v[0];
 }
 
 void normalize (float *u, int dim) {
