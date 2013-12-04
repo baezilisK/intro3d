@@ -15,10 +15,6 @@ static void vertex (int x, int y) {
   glVertex3f (x, y, terrain_hmap[x][y]);
 }
 
-static void vertexf (float x, float y) {
-  glVertex3f (x, y, terrain_h (x, y));
-}
-
 float terrain_h (float x, float y) {
   int x0, x1, y0, y1;
   float a, b, c;
@@ -90,7 +86,7 @@ void terrain_display (void) {
   glColor3ub (0xAA, 0xAA, 0xAA);
   for (i = 1; i < terrain_n; ++i) {
     for (j = 1; j < terrain_m; ++j) {
-      float n[3] = {0};
+      float n[3] = {0}, h = terrain_h (i - 0.5, j - 0.5);
       int k;
       for (k = 0; k < 3; ++k) {
         n[k] = (nmap[i][j][k] + nmap[i - 1][j][k] + 
@@ -98,16 +94,19 @@ void terrain_display (void) {
       }
       glNormal3fv (nmap[i][j]); vertex (i, j);
       glNormal3fv (nmap[i - 1][j]); vertex (i - 1, j);
-      glNormal3fv (n); vertexf (i - 0.5, j - 0.5);
+      glNormal3fv (n); glVertex3f (i - 0.5, j - 0.5, h);
+
       glNormal3fv (nmap[i - 1][j]); vertex (i - 1, j);
       glNormal3fv (nmap[i - 1][j - 1]); vertex (i - 1, j - 1);
-      glNormal3fv (n); vertexf (i - 0.5, j - 0.5);
+      glNormal3fv (n); glVertex3f (i - 0.5, j - 0.5, h);
+
       glNormal3fv (nmap[i - 1][j - 1]); vertex (i - 1, j - 1);
       glNormal3fv (nmap[i][j - 1]); vertex (i, j - 1);
-      glNormal3fv (n); vertexf (i - 0.5, j - 0.5);
+      glNormal3fv (n); glVertex3f (i - 0.5, j - 0.5, h);
+
       glNormal3fv (nmap[i][j - 1]); vertex (i, j - 1);
       glNormal3fv (nmap[i][j]); vertex (i, j);
-      glNormal3fv (n); vertexf (i - 0.5, j - 0.5);
+      glNormal3fv (n); glVertex3f (i - 0.5, j - 0.5, h);
     }
   }
   glEnd ();
