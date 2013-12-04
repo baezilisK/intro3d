@@ -6,6 +6,7 @@
 #include "config.h"
 #include "kbd.h"
 #include "levelio.h"
+#include "light.h"
 #include "road.h"
 #include "terrain.h"
 #include "tree.h"
@@ -23,6 +24,9 @@ static void init (void) {
     fprintf (stderr, "fatal: specified level does not exist\n");
     exit (EXIT_FAILURE);
   }
+  terrain_normalgen ();
+  light_enable ();
+  glShadeModel (GL_FLAT);
   cam_ti = PI / 4;
 }
 
@@ -30,6 +34,7 @@ static void main_exit (void) {
   tree_free ();
   terrain_free ();
   road_free ();
+  light_disable ();
   exit (EXIT_SUCCESS);
 }
 
@@ -102,6 +107,7 @@ static void axes (void) {
 static void display (void) {
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   axes ();
+  light_sun ();
   terrain_display ();
   tree_displayall ();
   road_displayall ();

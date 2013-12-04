@@ -1,18 +1,17 @@
-#include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include "config.h"
 #include "levelio.h"
+#include "light.h"
 #include "road.h"
 #include "terrain.h"
 #include "tree.h"
 #include "util.h"
 
 static FILE *f;
-static float a, b, c;
 
 static void sun (void) {
-  fscanf (f, "%f %f %f", &a, &b, &c); 
+  fscanf (f, "%f %f %f", light_sunx, light_sunx+1, light_sunx+2);
 }
 
 static void terrain (void) {
