@@ -26,7 +26,7 @@ static void init (void) {
   }
   terrain_normalgen ();
   light_enable ();
-  glShadeModel (GL_FLAT);
+  glShadeModel (GL_SMOOTH);
   cam_ti = PI / 4;
 }
 

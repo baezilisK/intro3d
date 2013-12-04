@@ -15,6 +15,10 @@ static void vertex (int x, int y) {
   glVertex3f (x, y, terrain_hmap[x][y]);
 }
 
+static void vertexf (float x, float y) {
+  glVertex3f (x, y, terrain_h (x, y));
+}
+
 float terrain_h (float x, float y) {
   int x0, x1, y0, y1;
   float a, b, c;
@@ -58,12 +62,6 @@ void terrain_normalgen (void) {
         if (j + 1 < terrain_m) {
           up[2] = terrain_hmap[i][j + 1] - h;
           crossproduct (up, left, n);
-          /*
-          printf ("(%f %f %f)x(%f %f %f) = (%f %f %f)\n",
-            up[0], up[1], up[2],
-            left[0], left[1], left[2],
-            n[0], n[1], n[2]);
-          */
           for (k = 0; k < dim; ++k) nmap[i][j][k] += n[k];
         }
       }
@@ -81,44 +79,35 @@ void terrain_normalgen (void) {
         }
       }
       normalize (nmap[i][j], dim);
-      /*
-      printf ("normal (%d %d) (%f %f %f)\n",
-        i, j,
-        nmap[i][j][0], nmap[i][j][1], nmap[i][j][2]);
-      */
     }
   }
 }
 
 void terrain_display (void) {
   int i, j;
-  glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
-  glBegin (GL_LINES);
-  glColor3ub (0xFE, 0x11, 0x11);
-  for (i = 0; i < terrain_n; ++i) {
-    for (j = 0; j < terrain_m; ++j) {
-      float n[3];
-      int k;
-      n[0] = i; n[1] = j; n[2] = terrain_hmap[i][j];
-      glVertex3fv (n);
-      for (k = 0; k < len (n); ++k) {
-        n[k] += nmap[i][j][k];
-      }
-      glVertex3fv (n);
-    }
-  }
-  glEnd ();
   glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
   glBegin (GL_TRIANGLES);
   glColor3ub (0xAA, 0xAA, 0xAA);
   for (i = 1; i < terrain_n; ++i) {
     for (j = 1; j < terrain_m; ++j) {
-      vertex (i, j);
-      vertex (i - 1, j);
-      vertex (i - 1, j - 1);
-      vertex (i - 1, j - 1);
-      vertex (i, j - 1);
-      vertex (i, j);
+      float n[3] = {0};
+      int k;
+      for (k = 0; k < 3; ++k) {
+        n[k] = (nmap[i][j][k] + nmap[i - 1][j][k] + 
+        nmap[i][j - 1][k] + nmap[i - 1][j - 1][k]) / 4;
+      }
+      glNormal3fv (nmap[i][j]); vertex (i, j);
+      glNormal3fv (nmap[i - 1][j]); vertex (i - 1, j);
+      glNormal3fv (n); vertexf (i - 0.5, j - 0.5);
+      glNormal3fv (nmap[i - 1][j]); vertex (i - 1, j);
+      glNormal3fv (nmap[i - 1][j - 1]); vertex (i - 1, j - 1);
+      glNormal3fv (n); vertexf (i - 0.5, j - 0.5);
+      glNormal3fv (nmap[i - 1][j - 1]); vertex (i - 1, j - 1);
+      glNormal3fv (nmap[i][j - 1]); vertex (i, j - 1);
+      glNormal3fv (n); vertexf (i - 0.5, j - 0.5);
+      glNormal3fv (nmap[i][j - 1]); vertex (i, j - 1);
+      glNormal3fv (nmap[i][j]); vertex (i, j);
+      glNormal3fv (n); vertexf (i - 0.5, j - 0.5);
     }
   }
   glEnd ();
