@@ -29,6 +29,7 @@ static void init (void) {
 static void main_exit (void) {
   tree_free ();
   terrain_free ();
+  road_free ();
   exit (EXIT_SUCCESS);
 }
 
