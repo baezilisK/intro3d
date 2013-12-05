@@ -21,7 +21,7 @@ static void init (void) {
   glClearColor (0, 0, 0, 0);
   glEnable (GL_DEPTH_TEST);
   kbd_setmap ("assets/kbd/dvp");
-  if (levelio_read ("assets/levels/11")) {
+  if (levelio_read ("assets/levels/12")) {
     fprintf (stderr, "fatal: specified level does not exist\n");
     exit (EXIT_FAILURE);
   }

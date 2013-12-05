@@ -50,7 +50,6 @@ void terrain_normalgen (void) {
     }
   }
 
-  /* apologies for the repetition */
   for (i = 0; i < terrain_n; ++i) {
     for (j = 0; j < terrain_m; ++j) {
       h = terrain_hmap[i][j];
