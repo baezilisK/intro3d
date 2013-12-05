@@ -4,15 +4,21 @@
 #include "GL/glut.h"
 #include "config.h"
 #include "terrain.h"
+#include "texture.h"
 #include "util.h"
 
 #define max(a, b) ((a) > (b) ?  (a) : (b))
 
+/* nmap[i][j] is the normal at (i, j), dim (nmap[i][j]) = 3 */
 static float ***nmap;
 
+static void vertexf (float x, float y, float h, float *n) {
+  glNormal3fv (n);
+  glVertex3f (x, y, h);
+}
+
 static void vertex (int x, int y) {
-  glNormal3fv (nmap[x][y]);
-  glVertex3f (x, y, terrain_hmap[x][y]);
+  vertexf (x, y, terrain_hmap[x][y], nmap[x][y]);
 }
 
 float terrain_h (float x, float y) {
@@ -81,35 +87,37 @@ void terrain_normalgen (void) {
 
 void terrain_display (void) {
   int i, j;
+  texture_enable (TEXTURE_GRASS);
   glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
   glBegin (GL_TRIANGLES);
   glColor3ub (0xAA, 0xAA, 0xAA);
   for (i = 1; i < terrain_n; ++i) {
     for (j = 1; j < terrain_m; ++j) {
-      float n[3] = {0}, h = terrain_h (i - 0.5, j - 0.5);
+      float 
+        n[3] = {0}, h = terrain_h (i - 0.5, j - 0.5),
+        dx[] = {0, -1, -1, 0, 0},
+        dy[] = {0, 0, -1, -1, 0},
+        tx[] = {1, 0, 0, 1, 1},
+        ty[] = {1, 1, 0, 0, 1};
       int k;
       for (k = 0; k < 3; ++k) {
         n[k] = (nmap[i][j][k] + nmap[i - 1][j][k] + 
         nmap[i][j - 1][k] + nmap[i - 1][j - 1][k]) / 4;
       }
-      glNormal3fv (nmap[i][j]); vertex (i, j);
-      glNormal3fv (nmap[i - 1][j]); vertex (i - 1, j);
-      glNormal3fv (n); glVertex3f (i - 0.5, j - 0.5, h);
+      for (k = 0; k < 4; ++k) {
+        glTexCoord2f (tx[k], ty[k]);
+        vertex (i + dx[k], j + dy[k]);
 
-      glNormal3fv (nmap[i - 1][j]); vertex (i - 1, j);
-      glNormal3fv (nmap[i - 1][j - 1]); vertex (i - 1, j - 1);
-      glNormal3fv (n); glVertex3f (i - 0.5, j - 0.5, h);
+        glTexCoord2f (tx[k + 1], ty[k + 1]);
+        vertex (i + dx[k + 1], j + dy[k + 1]);
 
-      glNormal3fv (nmap[i - 1][j - 1]); vertex (i - 1, j - 1);
-      glNormal3fv (nmap[i][j - 1]); vertex (i, j - 1);
-      glNormal3fv (n); glVertex3f (i - 0.5, j - 0.5, h);
-
-      glNormal3fv (nmap[i][j - 1]); vertex (i, j - 1);
-      glNormal3fv (nmap[i][j]); vertex (i, j);
-      glNormal3fv (n); glVertex3f (i - 0.5, j - 0.5, h);
+        glTexCoord2f (0.5, 0.5);
+        vertexf (i - 0.5, j - 0.5, h, n);
+      }
     }
   }
   glEnd ();
+  texture_disable ();
 }
 
 void terrain_free (void) {

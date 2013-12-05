@@ -2,7 +2,8 @@
 #define TEXTURE_H
 
 enum {
-  TEXTURE_TREE
+  TEXTURE_TREE,
+  TEXTURE_GRASS
 };
 
 /* load textures into memory */

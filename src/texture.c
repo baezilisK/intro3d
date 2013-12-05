@@ -5,10 +5,12 @@
 #include "util.h"
 
 static char *names[] = {
-  "assets/textures/wood.raw"
+  "assets/textures/wood.raw",
+  "assets/textures/grass.raw"
 };
 
 static size_t dim[] = {
+  256,
   256
 };
 
@@ -35,7 +37,7 @@ void texture_enable (int texid) {
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexImage2D (
     GL_TEXTURE_2D, 0, GL_RGB, dim[texid], dim[texid], 0,
-    GL_RGB, GL_UNSIGNED_BYTE, data[0]
+    GL_RGB, GL_UNSIGNED_BYTE, data[texid]
   );
 }
 
@@ -46,12 +48,14 @@ void texture_disable (void) {
 void texture_load (void) {
   int i;
   FILE *f;
+  size_t size;
   id = xmalloc (len (names) * sizeof *id);
   data = xmalloc (sizeof *data);
   for (i = 0; i < len (names); ++i) {
-    data[i] = xmalloc (3 * (1 << 16));
+    size = 3 * dim[i] * dim[i];
+    data[i] = xmalloc (size);
     f = fopen (names[i], "r"); assert (f);
-    loadraw (f, data[i], 3 * dim[i] * dim[i]);
+    loadraw (f, data[i], size);
     fclose (f);
   }
   glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
