@@ -3,22 +3,25 @@
 
 #include "config.h"
 #include "terrain.h"
+#include "texture.h"
 #include "tree.h"
 #include "util.h"
 
 static void trunk (float x, float y) {
   int i;
   float u, v, t, r = CONFIG_TREE_R, z;
+  texture_enable (TEXTURE_TREE);
   glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
   glBegin (GL_QUAD_STRIP);
     for (i = 0; i <= CONFIG_RENDER_DETAIL; ++i) {
       t = 2 * PI * i / CONFIG_RENDER_DETAIL;
       u = x + r * cos (t); v = y + r * sin (t);
       z = terrain_h (u, v);
-      glVertex3f (u, v, z);
-      glVertex3f (u, v, z + CONFIG_TREE_H);
+      glTexCoord2f (0, t); glVertex3f (u, v, z);
+      glTexCoord2f (1, t); glVertex3f (u, v, z + CONFIG_TREE_H);
     }
   glEnd ();
+  texture_disable ();
 }
 
 static void leaves (float x, float y) {

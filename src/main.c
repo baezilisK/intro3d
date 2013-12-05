@@ -9,6 +9,7 @@
 #include "light.h"
 #include "road.h"
 #include "terrain.h"
+#include "texture.h"
 #include "tree.h"
 #include "util.h"
 
@@ -26,6 +27,7 @@ static void init (void) {
   }
   terrain_normalgen ();
   light_enable ();
+  texture_load ();
   glShadeModel (GL_SMOOTH);
   cam_ti = PI / 4;
 }
@@ -35,6 +37,7 @@ static void main_exit (void) {
   terrain_free ();
   road_free ();
   light_disable ();
+  texture_delete ();
   exit (EXIT_SUCCESS);
 }
 
