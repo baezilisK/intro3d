@@ -5,6 +5,7 @@
 #include "config.h"
 #include "road.h"
 #include "terrain.h"
+#include "texture.h"
 #include "util.h"
 
 static void bezier3 (float t, float x[4], float y[4], float ret[2]) {
@@ -22,6 +23,7 @@ static void segment (float w, float *x, float *y) {
   int i, j;
   float t, p[3], q[3], up[3] = {0, 0, 1}, m[3], epsilon = 0.01;
   p[0] = x[0]; p[1] = y[1];
+  glNormal3f (0, 0, 1);
   glBegin (GL_QUAD_STRIP);
     for (i = 0; i <= CONFIG_RENDER_DETAIL; ++i) {
       t = (float) i / CONFIG_RENDER_DETAIL;
@@ -33,8 +35,12 @@ static void segment (float w, float *x, float *y) {
       crossproduct (q, up, m);
       normalize (m, len (m));
 
-      for (j = 0; j < len (m); ++j) p[j] -= w * m[j]; glVertex3fv (p);
-      for (j = 0; j < len (m); ++j) p[j] += 2*w * m[j]; glVertex3fv (p);
+      for (j = 0; j < len (m); ++j) p[j] -= w * m[j];
+        glTexCoord2f (0, t);
+        glVertex3fv (p);
+      for (j = 0; j < len (m); ++j) p[j] += 2*w * m[j];
+        glTexCoord2f (1, t);
+        glVertex3fv (p);
 
     }
   glEnd ();
@@ -49,9 +55,14 @@ static void display (struct road r) {
 
 void road_displayall (void) {
   int i;
-  glColor3f (1, 0, 0);
+  glColor3f (1, 1, 1);
+  glEnable (GL_POLYGON_OFFSET_FILL);
+  glPolygonOffset (-2, -1);
+  texture_enable (TEXTURE_ROAD);
   for (i = 0; i < road_n; ++i)
     display (road_all[i]);
+  texture_disable ();
+  glDisable (GL_POLYGON_OFFSET_FILL);
 }
 
 void road_free (void) {
