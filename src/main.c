@@ -42,6 +42,7 @@ static void init (void) {
   light_enable ();
   texture_load ();
   u = max (terrain_n, terrain_m); stars_init (CONFIG_NSTAR, 3*u, 10*u);
+  light_settime (!stars_daytime);
   glShadeModel (GL_SMOOTH);
   cam_ti = PI / 4;
 }
@@ -98,6 +99,7 @@ static void keydown (unsigned char key, int x, int y) {
     raining ^= 1;
   } else if (kbd_map[key] == TOGGLE_DAYTIME) {
     stars_daytime ^= 1;
+    light_settime (!stars_daytime);
   } else if (kbd_map[key] == TOGGLE_ROTATE) {
     rotate ^= 1;
   }
