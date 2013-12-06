@@ -10,6 +10,7 @@
 #include "rain.h"
 #include "rng.h"
 #include "road.h"
+#include "stars.h"
 #include "terrain.h"
 #include "texture.h"
 #include "tree.h"
@@ -24,6 +25,7 @@ static int        /* [toggle] description */
   raining = 1;    /* [k] is it raining */
 
 static void init (void) {
+  int u;
   glClearColor (0, 0, 0, 0);
   glEnable (GL_DEPTH_TEST);
   rng_init ();
@@ -35,6 +37,7 @@ static void init (void) {
   terrain_normalgen ();
   light_enable ();
   texture_load ();
+  u = max (terrain_n, terrain_m); stars_init (CONFIG_NSTAR, 3*u, 10*u);
   glShadeModel (GL_SMOOTH);
   cam_ti = PI / 4;
 }
@@ -124,6 +127,7 @@ static void display (void) {
   tree_displayall ();
   road_displayall ();
   if (raining) rain_display ();
+  else stars_display ();
   centermouse ();
   glutSwapBuffers ();
 }
