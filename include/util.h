@@ -19,4 +19,9 @@ float lerp (float a, float b, float t);
 
 float interpolate (float a, float b, float t);
 
+void util_rprism (
+    float x0, float x1, 
+    float y0, float y1, 
+    float z0, float z2);
+
 #endif /* UTIL_H */
