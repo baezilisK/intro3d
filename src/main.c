@@ -15,6 +15,9 @@
 #include "tree.h"
 #include "util.h"
 
+#define TOGGLE_FULLSCREEN 'f'
+#define TOGGLE_RAINING 'k'
+
 static int        /* [toggle] description */
   fullscreen = 0, /* [f] whether application is fullscreen */
   skipmouse = 0,  /* whether mouse handler should ignore next event */
@@ -79,12 +82,12 @@ static void keydown (unsigned char key, int x, int y) {
   (void) x; (void) y;
   if (kbd_map[key] == 'q') main_exit ();
   kbd_state[kbd_map[key]] = 1;
-  if (kbd_map[key] == 'f') {
+  if (kbd_map[key] == TOGGLE_FULLSCREEN) {
     fullscreen ^= 1;
     skipmouse = 1;
     if (fullscreen) glutFullScreen ();
     else glutReshapeWindow (CONFIG_WINDOW_H, CONFIG_WINDOW_H);
-  } else if (kbd_map[key] == 'k') {
+  } else if (kbd_map[key] == TOGGLE_RAINING) {
     raining ^= 1;
   }
 }
