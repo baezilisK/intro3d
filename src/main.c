@@ -19,11 +19,13 @@
 #define TOGGLE_FULLSCREEN 'f'
 #define TOGGLE_RAINING 'k'
 #define TOGGLE_DAYTIME 'j'
+#define TOGGLE_ROTATE 'i'
 
 static int        /* [toggle] description */
   fullscreen = 0, /* [f] whether application is fullscreen */
   skipmouse = 0,  /* whether mouse handler should ignore next event */
-  raining = 1;    /* [k] is it raining */
+  raining = 1,    /* [k] is it raining */
+  rotate = 0;     /* [i] sun/stars orbit terrain */
 /*stars_daytime*/ /* [j] is it daytime */
 
 static void init (void) {
@@ -96,6 +98,8 @@ static void keydown (unsigned char key, int x, int y) {
     raining ^= 1;
   } else if (kbd_map[key] == TOGGLE_DAYTIME) {
     stars_daytime ^= 1;
+  } else if (kbd_map[key] == TOGGLE_ROTATE) {
+    rotate ^= 1;
   }
 }
 
@@ -148,6 +152,7 @@ static void tick (void) {
     rain_mk (CONFIG_RAIN_DENSITY, cam_x-v, cam_x+v, cam_y-v, cam_y+v);
     rain_tick ();
   }
+  if (rotate) stars_tick ();
   /* cam_z = terrain_h (cam_x, cam_y) + CONFIG_AVATAR_HEIGHT; */
 }
 

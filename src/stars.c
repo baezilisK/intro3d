@@ -13,7 +13,7 @@
 #define N STARS_MAX
 
 static int n;
-static float x[N], y[N], z[N], prox;
+static float x[N], y[N], z[N], prox, t;
 
 void stars_init (int k, float r, float R) {
   int i;
@@ -27,6 +27,10 @@ void stars_init (int k, float r, float R) {
     y[i] = rr * sin (p) * cos (q);
     z[i] = rr * sin (q);
   }
+}
+
+void stars_tick (void) {
+  t += CONFIG_ROTATION_SPEED;
 }
 
 static void stars (void) {
@@ -59,6 +63,9 @@ static void sun (void) {
 }
 
 void stars_display (void) {
+  glPushMatrix ();
+  glRotatef (t, 0, 1, 0);
   if (stars_daytime) sun ();
   else stars ();
+  glPopMatrix ();
 }
