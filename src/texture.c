@@ -6,12 +6,14 @@
 
 static char *names[] = {
   "assets/textures/wood.raw",
+  "assets/textures/leaf.raw",
   "assets/textures/grass.raw",
   "assets/textures/road.raw",
   "assets/textures/sun.raw"
 };
 
 static size_t dim[] = {
+  256,
   256,
   256,
   128,

@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <math.h>
 #include "GL/gl.h"
@@ -42,7 +43,7 @@ static void stars (void) {
 
 static void sun (void) {
   float r = prox / sqrt (dotproduct (light_sunx, light_sunx, 3));
-  GLUquadric *a = gluNewQuadric ();
+  GLUquadric *a = gluNewQuadric (); assert (a);
   texture_enable (TEXTURE_SUN);
   glColor3f (1, 1, 1);
   gluQuadricTexture (a, GL_TRUE);
@@ -54,6 +55,7 @@ static void sun (void) {
     );
   glPopMatrix ();
   texture_disable ();
+  gluDeleteQuadric (a);
 }
 
 void stars_display (void) {

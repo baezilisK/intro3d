@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <math.h>
 #include "GL/glut.h"
 
@@ -7,9 +8,9 @@
 #include "tree.h"
 #include "util.h"
 
-static void trunk (float x, float y) {
+static void trunk (float x, float y, float z) {
   int i;
-  float u, v, t, ct, st, r = CONFIG_TREE_R, z;
+  float u, v, t, ct, st, r = CONFIG_TREE_R;
   texture_enable (TEXTURE_TREE);
   glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
   glBegin (GL_QUAD_STRIP);
@@ -26,13 +27,23 @@ static void trunk (float x, float y) {
   texture_disable ();
 }
 
-static void leaves (float x, float y) {
-  (void) x; (void) y;
+static void leaves (float x, float y, float z) {
+  GLUquadric *a = gluNewQuadric (); assert (a);
+  glPushMatrix ();
+    glTranslatef (x, y, z + CONFIG_TREE_H);
+    texture_enable (TEXTURE_LEAF);
+    gluQuadricTexture (a, GL_TRUE);
+    gluSphere (a, 3*CONFIG_TREE_R, 30, 30);
+    texture_disable ();
+  glPopMatrix ();
+  gluDeleteQuadric (a);
 }
 
 static void display (float x, float y) {
-  glColor3ub (0x96, 0x4B, 0x00); trunk (x, y);
-  glColor3ub (20, 188, 42); leaves (x, y);
+  float z = terrain_h (x, y);
+  glColor3f (1, 1, 1);
+  trunk (x, y, z);
+  leaves (x, y, z);
 }
 
 void tree_displayall (void) {
