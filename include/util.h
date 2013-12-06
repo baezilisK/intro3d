@@ -13,6 +13,8 @@ void xfree (void *);
 
 void crossproduct (float *u, float *v, float *uxv);
 
+float dotproduct (float *u, float *v, int dim);
+
 void normalize (float *u, int dim);
 
 float lerp (float a, float b, float t);

@@ -18,11 +18,13 @@
 
 #define TOGGLE_FULLSCREEN 'f'
 #define TOGGLE_RAINING 'k'
+#define TOGGLE_DAYTIME 'j'
 
 static int        /* [toggle] description */
   fullscreen = 0, /* [f] whether application is fullscreen */
   skipmouse = 0,  /* whether mouse handler should ignore next event */
   raining = 1;    /* [k] is it raining */
+/*stars_daytime*/ /* [j] is it daytime */
 
 static void init (void) {
   int u;
@@ -92,6 +94,8 @@ static void keydown (unsigned char key, int x, int y) {
     else glutReshapeWindow (CONFIG_WINDOW_H, CONFIG_WINDOW_H);
   } else if (kbd_map[key] == TOGGLE_RAINING) {
     raining ^= 1;
+  } else if (kbd_map[key] == TOGGLE_DAYTIME) {
+    stars_daytime ^= 1;
   }
 }
 

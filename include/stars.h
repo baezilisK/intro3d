@@ -3,6 +3,8 @@
 
 #define STARS_MAX 1000
 
+int stars_daytime;
+
 /* create n (n < STARS_MAX) random stars with r <= radius <= R */
 void stars_init (int n, float r, float R);
 

@@ -25,6 +25,14 @@ void crossproduct (float *u, float *v, float *ret) {
   ret[2] = u[0]*v[1] - u[1]*v[0];
 }
 
+float dotproduct (float *u, float *v, int dim) {
+  int i;
+  float ret = 0;
+  for (i = 0; i < dim; ++i)
+    ret += u[i] * v[i];
+  return ret;
+}
+
 void normalize (float *u, int dim) {
   int i;
   float j = 0;
