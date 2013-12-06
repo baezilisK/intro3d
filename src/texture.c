@@ -17,7 +17,7 @@ static size_t dim[] = {
   256,
   256,
   128,
-  256
+  512
 };
 
 static unsigned *id;
