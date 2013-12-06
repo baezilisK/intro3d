@@ -3,12 +3,13 @@
 
 void light_enable (void) {
   float
-    amb[] = {0.2, 0.2, 0.2},
-    spe[] = {1, 1, 1},
-    dif[] = {0.4, 0.4, 0.4};
+    amb[] = {0.1, 0.1, 0.1, 1},
+    spe[] = {0.6, 0.6, 0.6, 1},
+    dif[] = {0.4, 0.4, 0.4, 1};
   glLightfv (GL_LIGHT0, GL_AMBIENT, amb);
   glLightfv (GL_LIGHT0, GL_DIFFUSE, dif);
   glLightfv (GL_LIGHT0, GL_SPECULAR, spe);
+  glLightModelfv (GL_LIGHT_MODEL_AMBIENT, amb);
   glEnable (GL_LIGHTING);
   glEnable (GL_COLOR_MATERIAL);
   glEnable (GL_LIGHT0);

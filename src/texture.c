@@ -7,13 +7,15 @@
 static char *names[] = {
   "assets/textures/wood.raw",
   "assets/textures/grass.raw",
-  "assets/textures/road.raw"
+  "assets/textures/road.raw",
+  "assets/textures/sun.raw"
 };
 
 static size_t dim[] = {
   256,
   256,
-  128
+  128,
+  256
 };
 
 static unsigned *id;
@@ -52,7 +54,7 @@ void texture_load (void) {
   FILE *f;
   size_t size;
   id = xmalloc (len (names) * sizeof *id);
-  data = xmalloc (sizeof *data);
+  data = xmalloc (len (names) * sizeof *data);
   for (i = 0; i < len (names); ++i) {
     size = 3 * dim[i] * dim[i];
     data[i] = xmalloc (size);
