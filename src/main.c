@@ -63,12 +63,12 @@ static void passivemotion (int x, int y) {
     cy = glutGet (GLUT_WINDOW_HEIGHT) / 2;
   if (skipmouse) {
     skipmouse = 0;
-    return;
+  } else {
+    dx = (cx - x) * s; dy = (cy - y) * s;
+    cam_rotate (dx, dy);
+    cam_sync ();
+    glutPostRedisplay ();
   }
-  dx = (cx - x) * s; dy = (cy - y) * s;
-  cam_rotate (dx, dy);
-  cam_sync ();
-  glutPostRedisplay ();
 }
 
 static void centermouse (void) {
