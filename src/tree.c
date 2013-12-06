@@ -33,7 +33,10 @@ static void leaves (float x, float y, float z) {
     glTranslatef (x, y, z + CONFIG_TREE_H);
     texture_enable (TEXTURE_LEAF);
     gluQuadricTexture (a, GL_TRUE);
-    gluSphere (a, 3*CONFIG_TREE_R, 30, 30);
+    gluSphere (
+      a, 3*CONFIG_TREE_R,
+      CONFIG_RENDER_DETAIL, CONFIG_RENDER_DETAIL
+    );
     texture_disable ();
   glPopMatrix ();
   gluDeleteQuadric (a);
