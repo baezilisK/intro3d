@@ -15,3 +15,6 @@ int rng_i (int n) {
 double rng_f (void) {
   return (double) rand () / RAND_MAX;
 }
+
+void rng_free (void) {
+}

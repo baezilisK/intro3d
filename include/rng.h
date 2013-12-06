@@ -14,4 +14,10 @@ int rng_i (int n);
 /* returns a real in [0, 1] */
 double rng_f (void);
 
+/*
+ * Free any resources. Generator functions should not be called again,
+ * except after rng_init ().
+ */
+void rng_free (void);
+
 #endif /* RNG_H */

@@ -7,19 +7,23 @@
 #include "kbd.h"
 #include "levelio.h"
 #include "light.h"
+#include "rain.h"
+#include "rng.h"
 #include "road.h"
 #include "terrain.h"
 #include "texture.h"
 #include "tree.h"
 #include "util.h"
 
-static int
-  fullscreen = 0, /* whether application is fullscreen */
-  skipmouse = 0;  /* whether mouse handler should ignore next event */
+static int        /* [toggle] description */
+  fullscreen = 0, /* [f] whether application is fullscreen */
+  skipmouse = 0,  /* whether mouse handler should ignore next event */
+  raining = 1;    /* [k] is it raining */
 
 static void init (void) {
   glClearColor (0, 0, 0, 0);
   glEnable (GL_DEPTH_TEST);
+  rng_init ();
   kbd_setmap ("assets/kbd/dvp");
   if (levelio_read ("assets/levels/12")) {
     fprintf (stderr, "fatal: specified level does not exist\n");
@@ -80,6 +84,8 @@ static void keydown (unsigned char key, int x, int y) {
     skipmouse = 1;
     if (fullscreen) glutFullScreen ();
     else glutReshapeWindow (CONFIG_WINDOW_H, CONFIG_WINDOW_H);
+  } else if (kbd_map[key] == 'k') {
+    raining ^= 1;
   }
 }
 
@@ -114,18 +120,23 @@ static void display (void) {
   terrain_display ();
   tree_displayall ();
   road_displayall ();
+  if (raining) rain_display ();
   centermouse ();
   glutSwapBuffers ();
 }
 
 static void tick (void) {
-  float u = CONFIG_MOVE_SPEED;
+  float u = CONFIG_MOVE_SPEED, v = CONFIG_RAIN_RADIUS;
   if (kbd_state['w']) cam_mv (u, 0);
   if (kbd_state['s']) cam_mv (-u, 0);
   if (kbd_state['a']) cam_mv (0, -u);
   if (kbd_state['d']) cam_mv (0, u);
   if (kbd_state['c']) cam_z -= u;
   if (kbd_state[' ']) cam_z += u;
+  if (raining) {
+    rain_mk (CONFIG_RAIN_DENSITY, cam_x-v, cam_x+v, cam_y-v, cam_y+v);
+    rain_tick ();
+  }
   /* cam_z = terrain_h (cam_x, cam_y) + CONFIG_AVATAR_HEIGHT; */
 }
 
