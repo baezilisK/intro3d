@@ -31,14 +31,8 @@ static void leaves (float x, float y) {
 }
 
 static void display (float x, float y) {
-  /*
   glColor3ub (0x96, 0x4B, 0x00); trunk (x, y);
   glColor3ub (20, 188, 42); leaves (x, y);
-  */
-  float r = CONFIG_TREE_R;
-  util_rprism (x - r, x + r, y - r, y + r, terrain_h (x, y), CONFIG_TREE_H);
-  (void) trunk;
-  (void) leaves;
 }
 
 void tree_displayall (void) {
