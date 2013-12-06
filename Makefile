@@ -3,7 +3,7 @@ NOWARN = -Wno-parentheses -Wno-sign-compare -Wno-unused-result
 CFLAGS = -std=c89 -O4 -Wall -Werror -Wextra -pedantic $(NOWARN)
 LDFLAGS = -lm -lGL -lGLU -lglut
 IDIRS = include
-MODULES = cam kbd levelio light road terrain texture tree util
+MODULES = cam kbd levelio light rng road terrain texture tree util
 MODULES_BIN = $(patsubst %, bin/%.o, $(MODULES))
 MODULES_BIN_PROF = $(patsubst %, bin/prof/%.o, $(MODULES))
 MODULES_BIN_MF = $(patsubst %, bin/mf/%.o, $(MODULES));
