@@ -6,7 +6,8 @@ enum {
   TEXTURE_LEAF,
   TEXTURE_GRASS,
   TEXTURE_ROAD,
-  TEXTURE_SUN
+  TEXTURE_SUN,
+  TEXTURE_MOON
 };
 
 /* load textures into memory */

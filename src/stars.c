@@ -18,7 +18,7 @@ static float x[N], y[N], z[N], prox, t;
 void stars_init (int k, float r, float R) {
   int i;
   n = min (N, k);
-  prox = R;
+  prox = r;
   for (i = 0; i < n; ++i) {
     float 
       p = 2*PI*rng_f (), q = 2*PI*rng_f (),
@@ -45,10 +45,9 @@ static void stars (void) {
   glPointSize (1);
 }
 
-static void sun (void) {
+static void sphere (void) {
   float r = prox / sqrt (dotproduct (light_sunx, light_sunx, 3));
   GLUquadric *a = gluNewQuadric (); assert (a);
-  texture_enable (TEXTURE_SUN);
   glColor3f (1, 1, 1);
   gluQuadricTexture (a, GL_TRUE);
   glPushMatrix ();
@@ -58,14 +57,15 @@ static void sun (void) {
       CONFIG_RENDER_DETAIL, CONFIG_RENDER_DETAIL
     );
   glPopMatrix ();
-  texture_disable ();
   gluDeleteQuadric (a);
 }
 
 void stars_display (void) {
   glPushMatrix ();
   glRotatef (t, 0, 1, 0);
-  if (stars_daytime) sun ();
-  else stars ();
+  texture_enable (stars_daytime ? TEXTURE_SUN : TEXTURE_MOON);
+  sphere ();
+  texture_disable ();
+  if (!stars_daytime) stars ();
   glPopMatrix ();
 }

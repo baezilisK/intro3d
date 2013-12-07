@@ -6,14 +6,16 @@
 void light_settime (int night) {
   int i;
   float amb[4], spe[4], dif[4];
-  light_dayambient = 0.2; light_nightambient = 0.1;
-  light_daydiffuse = 0.6; light_nightdiffuse = 0.0;
-  light_dayspecular = 0.8; light_nightspecular = 0.0;
+  light_dayambient = 0.16; light_nightambient = 0.08;
+  light_daydiffuse = 0.6; light_nightdiffuse = 0.2;
+  light_dayspecular = 0.8; light_nightspecular = 0.3;
   for (i = 0; i < len (amb); ++i) {
     amb[i] = night ? light_nightambient : light_dayambient;
     spe[i] = night ? light_nightspecular : light_dayspecular;
     dif[i] = night ? light_nightdiffuse : light_daydiffuse;
   }
+  if (night) glClearColor (0, 0, 0, 1);
+  else glClearColor (0.1, 0.3, 0.8, 1);
   glLightfv (GL_LIGHT0, GL_AMBIENT, amb);
   glLightfv (GL_LIGHT0, GL_DIFFUSE, dif);
   glLightfv (GL_LIGHT0, GL_SPECULAR, spe);
