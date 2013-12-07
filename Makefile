@@ -16,6 +16,9 @@ prof: src/main.c $(MODULES_BIN_PROF)
 mf: src/main.c $(MODULES_BIN_MF)
 	$(CC) $(CFLAGS) $(LDFLAGS) -I$(IDIRS) -fmudflap -lmudflap -o $@ $^
 
+bezierterrain: src/terrain_bezier.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -I$(IDIRS) -c -o bin/terrain.o $<
+
 bin/prof/%.o: src/%.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -I$(IDIRS) -pg -c -o $@ $<
 

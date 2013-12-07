@@ -14,6 +14,9 @@ static void vertex (float x, float y) {
 }
 */
 
+void terrain_normalgen (void) {
+}
+
 float terrain_h (float x, float y) {
   int x0, x1, y0, y1;
   float a, b, c;
@@ -52,12 +55,12 @@ static void segment (int i0, int j0) {
   int i, j;
   float u, uu, v, vv, p[3];
   glBegin (GL_TRIANGLES);
-    for (i = 1; i <= CONFIG_RENDER_DETAIL; ++i) {
-      u = (float) i / CONFIG_RENDER_DETAIL;
-      uu = (float) (i - 1) / CONFIG_RENDER_DETAIL;
-      for (j = 1; j <= CONFIG_RENDER_DETAIL; ++j) {
-        v = (float) j / CONFIG_RENDER_DETAIL;
-        vv = (float) (j - 1) / CONFIG_RENDER_DETAIL;
+    for (i = 1; i <= CONFIG_BEZIER_DETAIL; ++i) {
+      u = (float) i / CONFIG_BEZIER_DETAIL;
+      uu = (float) (i - 1) / CONFIG_BEZIER_DETAIL;
+      for (j = 1; j <= CONFIG_BEZIER_DETAIL; ++j) {
+        v = (float) j / CONFIG_BEZIER_DETAIL;
+        vv = (float) (j - 1) / CONFIG_BEZIER_DETAIL;
         bezier3 (u, v, i0, j0, p); glVertex3fv (p);
         bezier3 (uu, v, i0, j0, p); glVertex3fv (p);
         bezier3 (uu, vv, i0, j0, p); glVertex3fv (p);
@@ -71,7 +74,7 @@ static void segment (int i0, int j0) {
 
 void terrain_display (void) {
   int i, j;
-  (void) i; (void) j;
+  glColor3ub (0xAA, 0xAA, 0xAA);
   glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
   for (i = 0; i + 4 <= terrain_m; i += 3) {
     for (j = 0; j + 4 <= terrain_n; j += 3) {

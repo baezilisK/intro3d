@@ -5,7 +5,13 @@ See spec.pdf for the original assignment specification .
 Bezier terrain looks pretty cool, though is about 30x slower and
 (on this machine, anyway) I really can't afford that kind of loss of
 FPS. Keeping the implementation anyway, as the two are useful to
-switch between.
+switch between. To use bezier implementation, build with
+
+  make bezierterrain && make
+
+else, simply build with
+
+  make
 
 ----
 
