@@ -9,7 +9,9 @@ float light_sunx[4], light_suntheta;
 
 void light_settime (int night);
 
-void light_enable ();
+void light_tick (void);
+
+void light_enable (void);
 
 void light_sun (void);
 

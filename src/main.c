@@ -154,7 +154,10 @@ static void tick (void) {
     rain_mk (CONFIG_RAIN_DENSITY, cam_x-v, cam_x+v, cam_y-v, cam_y+v);
     rain_tick ();
   }
-  if (rotate) stars_tick ();
+  if (rotate) {
+    stars_tick ();
+    light_tick ();
+  }
   /* cam_z = terrain_h (cam_x, cam_y) + CONFIG_AVATAR_HEIGHT; */
 }
 

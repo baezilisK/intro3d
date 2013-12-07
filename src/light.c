@@ -1,7 +1,10 @@
 #include "GL/gl.h"
+#include "config.h"
 #include "light.h"
 #include "stars.h"
 #include "util.h"
+
+static float t;
 
 void light_settime (int night) {
   int i;
@@ -29,8 +32,15 @@ void light_enable (void) {
   glEnable (GL_LIGHT0);
 }
 
+void light_tick (void) {
+  t += CONFIG_ROTATION_SPEED;
+}
+
 void light_sun (void) {
-  glLightfv (GL_LIGHT0, GL_POSITION, light_sunx);
+  glPushMatrix ();
+    glRotatef (t, 0, 1, 0);
+    glLightfv (GL_LIGHT0, GL_POSITION, light_sunx);
+  glPopMatrix ();
 }
 
 void light_disable (void) {
