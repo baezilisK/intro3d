@@ -158,7 +158,7 @@ static void tick (void) {
     stars_tick ();
     light_tick ();
   }
-  /* cam_z = terrain_h (cam_x, cam_y) + CONFIG_AVATAR_HEIGHT; */
+  cam_z = terrain_h (cam_x, cam_y) + CONFIG_AVATAR_HEIGHT;
 }
 
 static void timer (int s) {
