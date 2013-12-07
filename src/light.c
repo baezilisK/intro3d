@@ -15,7 +15,7 @@ void light_settime (int night) {
     dif[i] = night ? light_nightdiffuse : light_daydiffuse;
   }
   if (night) glClearColor (0, 0, 0, 1);
-  else glClearColor (0.1, 0.3, 0.8, 1);
+  else glClearColor (0.05, 0.05, 0.05, 1);
   glLightfv (GL_LIGHT0, GL_AMBIENT, amb);
   glLightfv (GL_LIGHT0, GL_DIFFUSE, dif);
   glLightfv (GL_LIGHT0, GL_SPECULAR, spe);
